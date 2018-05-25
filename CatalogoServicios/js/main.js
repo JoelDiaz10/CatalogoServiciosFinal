@@ -26,17 +26,17 @@ function mkLog(text){
 * carga inicial de la app
 */
 function onBodyLoad() {    
-	document.addEventListener("deviceready", onDeviceReady, false);
+	document.addEventListener("deviceready", onDeviceReady(), false);
 }
 
 function onDeviceReady(){
 	mkLog("Aplicación cargada y lista");
     //navigator.notification.alert("PhoneGap is working");
-	
 	existe_db = window.localStorage.getItem("existe_db");
 	db = window.openDatabase("catalogo_servicios", "1.0", "DB del curso Phonegap", 200000);
 	if(existe_db == null){
 		creaDB();
+		alert("se creo la base de datos");
 	}else{
 		cargaDatos();
 	}
@@ -125,7 +125,7 @@ function cargaDatosSuccess(tx, results){
 		if(foto == ""){
 			foto = "assets/no_foto.png";
 		}
-		selector.append('<li id="li_'+persona.id+'"><a href="#infoService" data-uid='+persona.id+' class="linkDetalles"><div class="interior_lista"><img src="'+ foto +'" class="img_peq"/><span>' + persona.nombre + '</span></div></a><a href="#form"  data-theme="a" data-uid='+persona.id+'  class="linkForm">Predet.</a></li>').listview('refresh');
+		selector.append('<li id="li_'+persona.id+'"><a href="#infoService" data-uid='+persona.id+' class="linkDetalles"><div class="interior_lista"><img src="'+ foto +'" class="img_peq"/><span>' + persona.nombre + '</span></div></a><a href="#actualizar"  data-theme="a" data-uid='+persona.id+'  class="linkForm">Predet.</a></li>').listview('refresh');
 	}
 	
 	$(".linkDetalles").click(function(e){
@@ -253,7 +253,7 @@ function saveEditForm(){
 
 function queryDBUpdateForm(tx){
 	var cat = $("#cajaCategorias").find("input:checked").val();
-	tx.executeSql('UPDATE agenda_curso SET nombre="'+$("#nombreE").val()+'",foto = "'+$.imageURL+'", telefono="'+$("#telE").val()+'",email="'+$("#emailE").val()+'",domicilio="'+$("#domicilioE").val()+'",categoria="'+cat+'", nota="'+$("#notaE").val()+'" WHERE id='+$.id);
+	tx.executeSql('UPDATE agenda_curso SET nombre="'+$("#nombreE").val()+'",foto = "'+$.imageURL+'",telefono="'+$("#telE").val()+'",email="'+$("#emailE").val()+'",domicilio="'+$("#domicilioE").val()+'",categoria="'+cat+'",nota="'+$("#notaE").val()+'" WHERE id='+$.id);
 }
 function updateFormSuccess(tx) {
 	var selector = $("#li_"+$.id);
@@ -321,7 +321,7 @@ function newFormSuccess(tx, results) {
 	var lista = $("#lista_" + cat + " ul")
 	
 	
-	var obj = $('<li id="li_'+results.insertId+'"><a href="#detalle" data-uid='+results.insertId+' class="linkDetalles"><div class="interior_lista"><img src="'+ $.imageUR +'" class="img_peq"/><span>' + $("#ti_nombre").val() + " " + $("#ti_apellidos").val()+ '</span></div></a><a href="#form"  data-theme="a" data-uid='+results.insertId+'  class="linkForm">Predet.</a></li>');
+	var obj = $('<li id="li_'+results.insertId+'"><a href="#infoService" data-uid='+results.insertId+' class="linkDetalles"><div class="interior_lista"><img src="'+ $.imageUR +'" class="img_peq"/><span>' + $("#ti_nombre").val() + " " + $("#ti_apellidos").val()+ '</span></div></a><a href="#agregar"  data-theme="a" data-uid='+results.insertId+'  class="linkForm">Predet.</a></li>');
 	obj.find('.linkDetalles').bind('click', function(e){
 		$.id = $(this).data('uid');
 	});
