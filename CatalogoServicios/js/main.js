@@ -43,12 +43,11 @@ function onDeviceReady(){
 	
 	
 	$("#btnGuardar").click(function(e){
-			saveNewForm();
-	 });
-
-	$("#btnActualizar").click(function(e){
-		if($.id != -1)
+		if($.id != -1){
 		 	saveEditForm();
+		 }else{
+			saveNewForm();
+		}
 	 });
 
 	$("#btnEliminar").click(function(e){
@@ -83,7 +82,7 @@ function creaNuevaDB(tx){
 		
 	tx.executeSql(sql);
 	
-	tx.executeSql("INSERT INTO catalogo_servicios (id,nombre,foto,telefono,email,domicilio,categoria,nota) VALUES (1,'Mónica','','+6699900970','m.olivarria@ccumazatlan.mx','Hotel del Cid #5796','amigos','Prueba primer Insert PhoneGap')");
+	tx.executeSql("INSERT INTO catalogo_servicios (id,nombre,foto,telefono,email,domicilio,categoria,nota) VALUES (1,'Maria','','6699900970','mariia@ccumazatlan.mx','Hotel del Cid #5796','amigos','Prueba primer Insert PhoneGap')");
 }
 
 
@@ -125,7 +124,7 @@ function cargaDatosSuccess(tx, results){
 		if(foto == ""){
 			foto = "assets/no_foto.png";
 		}
-		selector.append('<li id="li_'+persona.id+'"><a href="#infoService" data-uid='+persona.id+' class="linkDetalles"><div class="interior_lista"><img src="'+ foto +'" class="img_peq"/><span>' + persona.nombre + '</span></div></a><a href="#actualizar"  data-theme="a" data-uid='+persona.id+'  class="linkForm">Predet.</a></li>').listview('refresh');
+		selector.append('<li id="li_'+persona.id+'"><a href="#infoService" data-uid='+persona.id+' class="linkDetalles"><div class="interior_lista"><img src="'+ foto +'" class="img_peq"/><span>' + persona.nombre + '</span></div></a><a href="#form"  data-theme="a" data-uid='+persona.id+'  class="linkForm">Predet.</a></li>').listview('refresh');
 	}
 	
 	$(".linkDetalles").click(function(e){
@@ -141,7 +140,7 @@ function cargaDatosSuccess(tx, results){
 
 
 /*
-* vista detalle ======================================MOVEEEEEERLEEEEE AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+* vista detalle ======================================
 */
 
 $(document).on("pagebeforeshow", "#infoService", function(){
@@ -184,8 +183,8 @@ function queryDetalleSuccess(tx, results) {
 * vista detalle
 */
 //vista de la página de edición
-$(document).on('pagebeforeshow', '#actualizar', function(){ 
-	mkLog('ID recuperado en vista actualizar: ' + $.id);
+$(document).on('pagebeforeshow', '#form', function(){ 
+	mkLog('ID recuperado en vista form: ' + $.id);
 	
 	initForm();
 	if(db != null && $.id != -1){
@@ -211,15 +210,13 @@ function queryFormSuccess(tx, results) {
 			$.imageURL = "assets/no_foto.png";
 		}
 		$("#fotoEdit_img").attr("src", $.imageURL);
-		$("#nombreE").html($.registro.nombre);
-		$("#telE").html($.registro.telefono);
-		$("#emailE").html($.registro.email);
-		$("#domicilioE").html($.registro.domicilio);
-		
+		$("#ti_nombre").html($.registro.nombre);
+		$("#tel").html($.registro.telefono);
+		$("#email").html($.registro.email);
+		$("#domicilio").html($.registro.domicilio);		
+		$("#nota").html($.registro.nota);
+
 		$("#cat_"+$.registro.categoria).trigger("click").trigger("click");	//$("#cat_"+$.registro.categoria).attr("checked",true).checkboxradio("refresh");
-		
-		$("#notaE").html($.registro.nota);
-		
 		
 }
 $(document).on('pagebeforeshow', '#incio', function(){ 
@@ -229,15 +226,14 @@ function initForm(){
 	$.imageURL = "assets/no_foto.png";
 	
 	$("#fotoEdit_img").attr("src", $.imageURL);
-	$("#nombreE").val("");
-	$("#telE").val("");
-	$("#emailE").val("");
-	$("#domicilioE").val("");
-    
-    $("#cat_amigos").trigger("click").trigger("click") //Clic a una cat elegina
-	
-	$("#notaE").val("");
-		
+	$("#ti_nombre").val("");
+	$("#tel").val("");
+	$("#email").val("");
+	$("#domicilio").val("");   	
+	$("#nota").val("");
+
+	$("#cat_amigos").trigger("click").trigger("click") //Clic a una cat elegina
+
 	
 }
 
@@ -253,7 +249,7 @@ function saveEditForm(){
 
 function queryDBUpdateForm(tx){
 	var cat = $("#cajaCategorias").find("input:checked").val();
-	tx.executeSql('UPDATE agenda_curso SET nombre="'+$("#nombreE").val()+'",foto = "'+$.imageURL+'",telefono="'+$("#telE").val()+'",email="'+$("#emailE").val()+'",domicilio="'+$("#domicilioE").val()+'",categoria="'+cat+'",nota="'+$("#notaE").val()+'" WHERE id='+$.id);
+	tx.executeSql('UPDATE agenda_curso SET nombre="'+$("#ti_nombre").val()+'",foto = "'+$.imageURL+'",telefono="'+$("#tel").val()+'",email="'+$("#email").val()+'",domicilio="'+$("#domicilio").val()+'",categoria="'+cat+'",nota="'+$("#nota").val()+'" WHERE id='+$.id);
 }
 function updateFormSuccess(tx) {
 	var selector = $("#li_"+$.id);
@@ -270,7 +266,7 @@ function updateFormSuccess(tx) {
 	lista.append(selector).listview('refresh');
 	
 	
-	$.mobile.changePage("#inicio");
+	$.mobile.changePage("#home");
 }
 
 
@@ -297,7 +293,7 @@ function deleteFormSuccess(tx) {
 	/*var cat = $("#cajaCategorias").find("input:checked").val();
 	var lista = $("#lista_" + cat + " ul")
 	lista.append(selector).listview('refresh');*/
-	$.mobile.changePage("#inicio");
+	$.mobile.changePage("#home");
 }
 
 
@@ -314,14 +310,14 @@ function saveNewForm(){
 function queryDBInsertForm(tx){
 	var cat = $("#cajaCategorias").find("input:checked").val();
 	
-	tx.executeSql("INSERT INTO agenda_curso (nombre,foto,telefono,email,domicilio,categoria,nota) VALUES ('"+$("#ti_nombre").val()+"','"+$.imageURL+"','"+$("#tel").val()+"','"+$("#email").val()+"','"+$("domicilio").val()+"','"+cat+"','"+$("#nota").val()+"')", [], newFormSuccess, errorDB);
+	tx.executeSql("INSERT INTO agenda_curso (nombre,foto,telefono,email,domicilio,categoria,nota) VALUES ('"+$("#ti_nombre").val()+"','"+$.imageURL+"','"+$("#tel").val()+"','"+$("#email").val()+"','"+$("#domicilio").val()+"','"+cat+"','"+$("#nota").val()+"')", [], newFormSuccess, errorDB);
 }
 function newFormSuccess(tx, results) {
 	var cat = $("#cajaCategorias").find("input:checked").val();
 	var lista = $("#lista_" + cat + " ul")
 	
 	
-	var obj = $('<li id="li_'+results.insertId+'"><a href="#infoService" data-uid='+results.insertId+' class="linkDetalles"><div class="interior_lista"><img src="'+ $.imageUR +'" class="img_peq"/><span>' + $("#ti_nombre").val() + " " + $("#ti_apellidos").val()+ '</span></div></a><a href="#agregar"  data-theme="a" data-uid='+results.insertId+'  class="linkForm">Predet.</a></li>');
+	var obj = $('<li id="li_'+results.insertId+'"><a href="#infoService" data-uid='+results.insertId+' class="linkDetalles"><div class="interior_lista"><img src="'+ $.imageUR +'" class="img_peq"/><span>' + $("#ti_nombre").val() + '</span></div></a><a href="#form"  data-theme="a" data-uid='+results.insertId+'  class="linkForm">Predet.</a></li>');
 	obj.find('.linkDetalles').bind('click', function(e){
 		$.id = $(this).data('uid');
 	});
@@ -332,5 +328,5 @@ function newFormSuccess(tx, results) {
 	lista.append(obj).listview('refresh');
 	
 	
-	$.mobile.changePage("#inicio");
+	$.mobile.changePage("#home");
 }
