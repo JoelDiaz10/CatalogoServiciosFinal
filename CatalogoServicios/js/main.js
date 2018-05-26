@@ -65,9 +65,28 @@ function onDeviceReady(){
 	 });
 }
 
+	/*
+* Eliminar registro
+*/
+ function deleteForm(){
+	if(db != null){
+		db.transaction(querydelete, errorDB, DeleteFormSuccess);
+	}
+	
+}
+
+function querydelete(tx) {
+   
+	tx.executeSql('DELETE FROM agenda_curso WHERE id='+$.id);
+}
+
+function DeleteFormSuccess(tx){
+	$("#li_"+$.id).remove();
+	$.mobile.changePage("#home");	
+}
 
 /* 
-* creación de ña base de datos
+* creación de la base de datos
 */
 function creaDB(){
 	db.transaction(creaNuevaDB, errorDB, creaSuccess);
@@ -129,7 +148,7 @@ function cargaDatosSuccess(tx, results){
 	for(var i=0; i<results.rows.length; i++){
 		var persona = results.rows.item(i);
 		var selector = $("#lista_" + persona.categoria + " ul");
-		var foto = persona.foto;
+		var foto = $('#fotoEdit_img').ttr('src',persona.foto);
 		if(foto == ""){
 			foto = "assets/no_foto.png";
 		}
@@ -309,23 +328,5 @@ function newFormSuccess(tx, results) {
 	
 	$.mobile.changePage("#home");
 
-	/*
-* Eliminar registro
-*/
- function deleteForm(){
-if(db != null){
-db.transaction(querydelete, errorDB, DeleteFormSuccess);
-}
-	
-}
 
-function querydelete(tx) {
-   
-	tx.executeSql('DELETE FROM agenda_curso WHERE id='+$.id);
-}
-
-function DeleteFormSuccess(tx){
-$("#li_"+$.id).remove();
-$.mobile.changePage("#home");	
-}
 }
