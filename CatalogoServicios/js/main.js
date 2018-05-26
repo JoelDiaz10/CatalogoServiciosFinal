@@ -37,7 +37,6 @@ function onDeviceReady(){
 	db = window.openDatabase("agenda_curso", "1.0", "DB del curso Phonegap", 200000);
 	if(existe_db == null){
 		creaDB();
-		alert("Base de datos creada");
 	}else{
 		cargaDatos();
 	}
@@ -150,7 +149,7 @@ function cargaDatosSuccess(tx, results){
 		if(foto == ""){
 			foto = "assets/no_foto.png";
 		}
-		selector.append('<li id="li_'+persona.id+'"><a href="#detalle" data-uid='+persona.id+' class="linkDetalles"><div class="interior_lista"><img src="'+ foto +'" class="img_peq"/><span>' + persona.nombre + ' ' + persona.categoria+ '</span></div></a><a href="#form"  data-theme="a" data-uid='+persona.id+'  class="linkForm">Predet.</a></li>').listview('refresh');
+		selector.append('<li id="li_'+persona.id+'"><a href="#detalle" data-uid='+persona.id+' class="linkDetalles"><div class="interior_lista"><img src="'+ foto +'" class="img_peq"/><span>' + persona.nombre + '</span></div></a><a href="#form"  data-theme="a" data-uid='+persona.id+'  class="linkForm">Predet.</a></li>').listview('refresh');
 	}
 	
 	$(".linkDetalles").click(function(e){
@@ -195,10 +194,12 @@ function queryDetalleSuccess(tx, results) {
 			_foto = "assets/no_foto.png";
 		}
 		$("#foto_img").attr("src", _foto);
-		$("#nombre").html($.registro.nombre + " " + $.registro.categoria);
+		$("#nombre").html($.registro.nombre);
 		$("#num_tel").html($.registro.telefono);
 		$("#telefono").attr("href", "tel:" + $.registro.telefono);
 		$("#label_mail").html("Email: " + $.registro.email);
+		$("#label_dom").html("Domicilio: " +$.registro.domicilio);
+		$("#not").html($.registro.nota);
 }
 
 
@@ -281,7 +282,7 @@ function updateFormSuccess(tx) {
 	
 	var selector = $("#li_"+$.id).clone(true);
 	selector.find("img").attr("src", Imagen);
-	selector.find("a:first").find("span").html($("#ti_nombre").val() + " Nota: " + $("#ti_nota").val());
+	selector.find("a:first").find("span").html($("#ti_nombre").val());
 	
 	
 	$("#li_"+$.id).remove();
@@ -317,7 +318,7 @@ function newFormSuccess(tx, results) {
 	var lista = $("#lista_" + cat + " ul")
 	
 	
-	var obj = $('<li id="li_'+results.insertId+'"><a href="#detalle" data-uid='+results.insertId+' class="linkDetalles"><div class="interior_lista"><img src="'+ Imagen +'" class="img_peq"/><span>' + $("#ti_nombre").val() + " Nota: " + $("#ti_nota").val()+ '</span></div></a><a href="#form"  data-theme="a" data-uid='+results.insertId+'  class="linkForm">Predet.</a></li>');
+	var obj = $('<li id="li_'+results.insertId+'"><a href="#detalle" data-uid='+results.insertId+' class="linkDetalles"><div class="interior_lista"><img src="'+ Imagen +'" class="img_peq"/><span>' + $("#ti_nombre").val() + '</span></div></a><a href="#form"  data-theme="a" data-uid='+results.insertId+'  class="linkForm">Predet.</a></li>');
 	obj.find('.linkDetalles').bind('click', function(e){
 		$.id = $(this).data('uid');
 	});

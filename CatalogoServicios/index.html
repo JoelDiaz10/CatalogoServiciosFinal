@@ -14,8 +14,8 @@
 
 <body onload="onBodyLoad()">
 <!--  esta es la página de entrada: el listado de Home-->
-    <div data-role="page" id="home">
-      <div data-role="header">
+    <div data-role="page" id="home" data-theme="e">
+      <div data-role="header" data-theme="b">
         <div class="ui-btn-left">
         <a href="#form" data-role="button" data-inline="true" data-icon="plus" data-iconpos="notext">Nuevo</a>
         
@@ -27,7 +27,7 @@
       </div>
       <div data-role="content">
       <div align="center"><img src="images/catalogo.png" width="40%" alt="tu imagen"></div>
-        <div data-role="collapsible-set">
+        <div data-role="collapsible-set" data-theme="b">
           <div data-role="collapsible" id="lista_amigos">
             <h3>Amigos</h3>
             <ul data-role="listview" data-filter="true" data-inset="true" data-split-icon="edit" >   
@@ -46,7 +46,7 @@
         </div>
       </div>
   <!--===============FOOTER==================================-->
-      <div data-role="footer" data-position="fixed">
+      <div data-role="footer" data-theme="b" data-position="fixed">
     <div data-role="navbar">
      <ul>
       <li><a href="#" data-rel="back" data-role="button" data-icon="arrow-l">Back</a></li>
@@ -80,7 +80,9 @@
      	<div class="caja_blanca">
         <h3 id="nombre">Monica Olivarria</h3>
          <div ><span id="num_tel">6699900970</span> <a href="#" data-role="button" data-inline="true" data-icon="phone" data-iconpos="notext" id="telefono">Llamar</a></div>
-        <div id="email"><span id="label_mail">m.olivarria@ccumazatlan.mx</span> <a href="#" data-role="button" data-inline="true" data-icon="mail" data-iconpos="notext">Llamar</a></div>
+        <div id="email"><span id="label_mail">m.olivarria@ccumazatlan.mx</span> <a href="#" data-role="button" data-inline="true" data-icon="mail" data-iconpos="notext">Correo</a></div>
+        <div id="dom"><span id="label_dom">Mazatlan</span> <a href="#" data-role="button" data-inline="true" data-icon="home" data-iconpos="notext">Hogar</a></div>
+        <h3 id="not">Mi nota</h3>
         </div>
       </div>
     </div>
@@ -91,8 +93,8 @@
     
     
     <!--página de agregado y edición-->
-    <div data-role="page" id="form">
-      <div data-role="header">
+    <div data-role="page" id="form" data-theme="a">
+      <div data-role="header" data-theme="b">
       	<div class="ui-btn-left">
             <a href="#" data-role="button" data-inline="true" data-icon="back" data-iconpos="notext" data-rel="back">Volver</a>
        	</div>
@@ -132,17 +134,21 @@
                  </fieldset>
                </div>
         </div></center>
+        <center>
+        	<div data-role="controlgroup" data-type="horizontal">
+        		<button id="b_guardar" data-icon="plus">Guardar/ Editar</button>
+       	    </div>
         
-        <div data-role="controlgroup" data-type="horizontal">
-        	<button id="b_guardar" data-icon="plus">Guardar/ Editar</button>
-        	<button id="b_eliminar" data-icon="minus">Eliminar</button>
-        </div>
-        <div data-role="controlgroup" data-type="horizontal">
-        	<button id="b_cancelar" data-icon="delete" onClick="window.location.href='#home'">Cancelar</button>
-        </div>
+        	<div data-role="controlgroup" data-type="horizontal">
+        		<button id="b_eliminar" data-icon="minus">Eliminar</button>
+        	</div>
         
+        	<div data-role="controlgroup" data-type="horizontal">
+        		<button id="b_cancelar" data-icon="delete" onClick="window.location.href='#home'">Cancelar</button>
+        	</div>
+        </center>
        </div>
-         <div data-role="footer" data-position="fixed">
+         <div data-role="footer" data-position="fixed" data-theme="b">
     		<div data-role="navbar">
      			<ul>
      				<li><a href="#" data-rel="back" data-role="button" data-icon="arrow-l">Back</a></li>
@@ -173,7 +179,7 @@
     
     
    <!-- Acerca de mí-->
-    <div data-role="page" id="acerca">
+    <div data-role="page" id="acerca" data-theme="d">
   <div data-role="header">
     <h1>Acerca de Mí</h1>
   </div>
