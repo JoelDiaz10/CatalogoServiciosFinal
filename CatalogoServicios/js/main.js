@@ -26,17 +26,18 @@ function mkLog(text){
 * carga inicial de la app
 */
 function onBodyLoad() {    
-	document.addEventListener("deviceready", onDeviceReady, false);
+	document.addEventListener("deviceready", onDeviceReady(), false);
 }
 
 function onDeviceReady(){
 	mkLog("Aplicación cargada y lista");
     //navigator.notification.alert("PhoneGap is working");
-	
+	alert("Cargado")
 	existe_db = window.localStorage.getItem("existe_db");
 	db = window.openDatabase("agenda_curso", "1.0", "DB del curso Phonegap", 200000);
 	if(existe_db == null){
 		creaDB();
+		alert("Base de datos creada")
 	}else{
 		cargaDatos();
 	}
