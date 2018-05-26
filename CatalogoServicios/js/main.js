@@ -307,17 +307,17 @@ function saveNewForm(){
 
 function queryDBInsertForm(tx){
 	var cat = $("#cajaCategorias").find("input:checked").val();
-	var imageUR = $("#fotoEdit_img").attr('src');
+	var Imagen = $("#fotoEdit_img").attr('src');
 	
-	tx.executeSql("INSERT INTO agenda_curso (nombre,email,telefono,domicilio,nota,foto,categoria) VALUES ('"+$("#ti_nombre").val()+"','"+$("#ti_email").val()+"','"+$("#ti_telefono").val()+"','"+$("#ti_domicilio").val()+"','"+$("#ti_nota").val()+"','"+imageURL+"','"+cat+"')", [], newFormSuccess, errorDB);
+	tx.executeSql("INSERT INTO agenda_curso (nombre,email,telefono,domicilio,nota,foto,categoria) VALUES ('"+$("#ti_nombre").val()+"','"+$("#ti_email").val()+"','"+$("#ti_telefono").val()+"','"+$("#ti_domicilio").val()+"','"+$("#ti_nota").val()+"','"+Imagen+"','"+cat+"')", [], newFormSuccess, errorDB);
 }
 function newFormSuccess(tx, results) {
 	var cat = $("#cajaCategorias").find("input:checked").val();
-	var imageUR = $("#fotoEdit_img").attr('src');
+	var Imagen = $("#fotoEdit_img").attr('src');
 	var lista = $("#lista_" + cat + " ul")
 	
 	
-	var obj = $('<li id="li_'+results.insertId+'"><a href="#detalle" data-uid='+results.insertId+' class="linkDetalles"><div class="interior_lista"><img src="'+ imageUR +'" class="img_peq"/><span>' + $("#ti_nombre").val() + " Nota: " + $("#ti_nota").val()+ '</span></div></a><a href="#form"  data-theme="a" data-uid='+results.insertId+'  class="linkForm">Predet.</a></li>');
+	var obj = $('<li id="li_'+results.insertId+'"><a href="#detalle" data-uid='+results.insertId+' class="linkDetalles"><div class="interior_lista"><img src="'+ Imagen +'" class="img_peq"/><span>' + $("#ti_nombre").val() + " Nota: " + $("#ti_nota").val()+ '</span></div></a><a href="#form"  data-theme="a" data-uid='+results.insertId+'  class="linkForm">Predet.</a></li>');
 	obj.find('.linkDetalles').bind('click', function(e){
 		$.id = $(this).data('uid');
 	});
