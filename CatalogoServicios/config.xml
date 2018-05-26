@@ -2,17 +2,17 @@
 <widget id="com.phonegap.DMJG" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Catalogo de Servicios</name>
     <description>
-        Proyecto Final PhoneGap
+        Proyecto Final PhoneGap 2018
     </description>
     <author email="support@phonegap.com" href="http://phonegap.com">
         Joel Díaz Martínez
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <icon src="images/icono.png" gap:density="ldpi" gap:platform="android" />
-    <icon src="images/icono.png" gap:density="mdpi" gap:platform="android" />
-    <icon src="images/icono.png" gap:density="hdpi" gap:platform="android" />
-    <icon src="images/icono.png" gap:density="xhdpi" gap:platform="android" />
+    <icon src="Imagenes/icono.png" gap:density="ldpi" gap:platform="android" />
+    <icon src="Imagenes/icono.png" gap:density="mdpi" gap:platform="android" />
+    <icon src="Imagenes/icono.png" gap:density="hdpi" gap:platform="android" />
+    <icon src="Imagenes/icono.png" gap:density="xhdpi" gap:platform="android" />
 
     <plugin name="cordova-plugin-dialogs" spec="~1.3.3" />
 
