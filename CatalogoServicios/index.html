@@ -2,138 +2,178 @@
 <html>
 <head>
 <meta charset="utf-8">
-  <title>Catálogo de Servicios</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
-    <link href="css/estilos.css" rel="stylesheet" type="text/css">
-    <link href="jquery-mobile/jquery.mobile.theme-1.3.0.min.css" rel="stylesheet" type="text/css">
-    <link href="jquery-mobile/jquery.mobile.structure-1.3.0.min.css" rel="stylesheet" type="text/css">
-    <script src="jquery-mobile/jquery-1.11.1.min.js" type="text/javascript"></script>
-    <script src="jquery-mobile/jquery.mobile-1.3.0.min.js" type="text/javascript"></script>
-    <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+<title>Catalogo de Servicios</title>
 
+	<link href="css/estilos.css" rel="stylesheet" type="text/css">
+	<link href="jquery-mobile/jquery.mobile.theme-1.3.0.min.css" rel="stylesheet" type="text/css">
+	<link href="jquery-mobile/jquery.mobile.structure-1.3.0.min.css" rel="stylesheet" type="text/css">
+	<script src="jquery-mobile/jquery-1.11.1.min.js" type="text/javascript"></script>
+	<script src="jquery-mobile/jquery.mobile-1.3.0.min.js" type="text/javascript"></script>
+    <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
 </head>
 
 <body onload="onBodyLoad()">
-
-<!-- PAGINA PRINCIPAL-->
-<div data-role="page" id="home" data-theme="e">
-  <div data-role="header" data-theme="b">
-  <a href="#form" data-role="button" data-inline="true" data-icon="plus" data-iconpos="notext">Add Service</a>
-    <h1>Catálogo de Servicios</h1>
-     <a href="#acerca" data-role="button" data-inline="true" data-icon="info" data-iconpos="notext">About us</a>
-  </div>
-  <!--Imagen-->
-  <br><br><center><img src="Imagenes/catalogo.png" width="50%" alt=""/></center>
-<!--Content-->
-  <br><br><br>
-  
-  <!--=======Crear collapsible dinámicos========-->
-  <div data-role="collapsible-set">
-     
-    <div data-role="collapsible" id="lista_amigos">
-      <h3>Amigos</h3>
-       <ul data-role="listview" data-filter="true" data-inset="true" data-split-icon="edit" data-filter-placeholder="Buscar Amigo...">
-      </ul>
-    </div>
-    
-    <div data-role="collapsible" data-collapsed="true" id="lista_banca">
-      <h3>Banca</h3>
-      <ul data-role="listview" data-filter="true" data-inset="true" data-split-icon="edit" data-filter-placeholder="Buscar Banca..."></ul>
-    </div>
-   
-    <div data-role="collapsible" data-collapsed="true" id="lista_trabajo">
-      <h3>Trabajo</h3>
-      <ul data-role="listview" data-filter="true" data-inset="true" data-split-icon="edit" data-filter-placeholder="Buscar Trabajador..."></ul>
-    </div>
-  </div>
-    
-  <div data-role="footer" data-position="fixed" data-theme="b">
-    <div data-role="navbar">
-     <ul>
-      <li><a href="#" data-rel="back" data-role="button" data-icon="arrow-l">Back</a></li>
-      <li><a href="#info" data-role="button" data-icon="info">Info</a></li>
-      <li><a href="#form" data-role="button" data-icon="arrow-r">Next</a></li>
-     </ul>
-    </div>
-  </div>
-</div>
-
-<!--==============Página de form==================-->
-<div data-role="page" id="form">
-  <div data-role="header">
-    <h1>Agregar/Editar Servicios</h1>
-  </div>
-  <center>
-  <div data-role="content">
-  <br>
-  <!--==========FOTO=============================-->
-  <div class="" >
-            <div id="fotoEdit"><a href="#"><img width="15%" id="fotoEdit_img" src="assets/no_foto.png"/></a>
-            </div>
+<!--  esta es la página de entrada: el listado de Home-->
+    <div data-role="page" id="home">
+      <div data-role="header">
+        <div class="ui-btn-left">
+        <a href="#form" data-role="button" data-inline="true" data-icon="plus" data-iconpos="notext">Nuevo</a>
+        
         </div>
-<!-- FORMULARIO-->
- 
-  <div data-role="fieldcontain">
-   <input type="text" name="ti_nombre" id="ti_nombre" placeholder="Nombre de Servicio" value=""  />
-  </div>
-  
-  <div data-role="fieldcontain">
-    <input type="number" name="tel" id="tel" placeholder="Teléfono" value=""/>
-  </div>
-  
-  <div data-role="fieldcontain">
-    <input type="email" name="email" id="email" placeholder="Email" value=""  />
-  </div>
-  
-  <div data-role="fieldcontain">
-    <input type="text" name="domicilio" id="domicilio" placeholder="Domicilio" value=""  />
-  </div>
- 
-  <!-- ==================CATEGORIAS===========================--> 
-  <center><div id="cajaCategorias">
-    <div data-role="fieldcontain">
-     <fieldset data-role="controlgroup" data-type="horizontal">
-        <input type="radio" name="categoriaSel" id="cat_amigos" value="amigos"/>
-        <label for="cat_amigos">Amigos</label>
-        <input type="radio" name="categoriaSel" id="cat_banca" value="banca"/>
-        <label for="cat_banca">Banca</label>
-        <input type="radio" name="categoriaSel" id="cat_trabajo" value="trabajo" />
-        <label for="cat_trabajo">Trabajo</label>
-      </fieldset>
-    </div>
-   </div></center>
-  
- <!--===================================================================-->
- 
-  <div data-role="fieldcontain">
-    <textarea cols="40" rows="12" placeholder="Nota..." name="nota" id="nota"></textarea>
-  </div>
-  
-  <!--==================BOTONES================================-->
-  <center><div data-role="controlgroup" data-type="horizontal">
-  <button id="btnGuardar" data-icon="plus">Agregar/Editar</button>
-  <button id="btnEliminar" data-icon="minus">Eliminar</button>
-  <button id="btnCancelar" data-icon="delete" onClick=" window.location.href='#home' ">Cancelar</button>
-  </div></center>
-</div>
-</center>
-<!--==============================================================================================================-->
-  
-    <div data-role="footer" data-position="fixed">
+      	<h1>Catalogo de Servicios</h1>
+        <div class="ui-btn-right">
+        <a href="#acerca" data-role="button" data-inline="true" data-icon="info" data-iconpos="notext">Acerca de mí</a>
+        </div>
+      </div>
+      <div data-role="content">
+      <div align="center"><img src="images/catalogo.png" width="40%" alt="tu imagen"></div>
+        <div data-role="collapsible-set">
+          <div data-role="collapsible" id="lista_amigos">
+            <h3>Amigos</h3>
+            <ul data-role="listview" data-filter="true" data-inset="true" data-split-icon="edit" >   
+            </ul>
+          </div>
+          <div data-role="collapsible" data-collapsed="true" id="lista_hotel">
+            <h3>Hoteles</h3>
+            <ul data-role="listview" data-filter="true" data-inset="true" data-split-icon="edit">
+            </ul>
+          </div>
+          <div data-role="collapsible" data-collapsed="true" id="lista_farmacia">
+            <h3>Farmacia</h3>
+            <ul data-role="listview" data-filter="true" data-inset="true" data-split-icon="edit">
+            </ul>
+          </div>
+        </div>
+      </div>
+  <!--===============FOOTER==================================-->
+      <div data-role="footer" data-position="fixed">
     <div data-role="navbar">
      <ul>
       <li><a href="#" data-rel="back" data-role="button" data-icon="arrow-l">Back</a></li>
       <li><a href="#home" data-role="button" data-icon="home">Home</a></li>
       <li><a href="#info" data-role="button" data-icon="info">Info</a></li>
-      <li><a href="#acerca" data-role="button" data-icon="arrow-r">Next</a></li>
+      <li><a href="#form" data-role="button" data-icon="arrow-r">Next</a></li>
      </ul>
     </div>
   </div>
-</div>
+    </div>
+    
+    
+    
+    
+    
+    
+   <!-- esta página es la de detalle-->
+    <div data-role="page" id="detalle">
+      <div data-role="header">
+          <div class="ui-btn-left">
+            <a href="#" data-role="button" data-inline="true" data-icon="back" data-iconpos="notext" data-rel="back">Volver</a>
+       	</div>
+        <h1>Información del Servicio</h1>
+      </div>
+      <div data-role="content">
+      	<div class="caja_blanca">
+        	<p id="categoria">Amigos</p>
+            <div id="foto"><img id="foto_img" src="assets/no_foto.png"/></div>
+        </div>
 
-
-<!--==============Página de Acerca de mi==================-->
-<div data-role="page" id="acerca">
+     	<div class="caja_blanca">
+        <h3 id="nombre">Monica Olivarria</h3>
+         <div ><span id="num_tel">6699900970</span> <a href="#" data-role="button" data-inline="true" data-icon="phone" data-iconpos="notext" id="telefono">Llamar</a></div>
+        <div id="email"><span id="label_mail">m.olivarria@ccumazatlan.mx</span> <a href="#" data-role="button" data-inline="true" data-icon="mail" data-iconpos="notext">Llamar</a></div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    <!--página de agregado y edición-->
+    <div data-role="page" id="form">
+      <div data-role="header">
+      	<div class="ui-btn-left">
+            <a href="#" data-role="button" data-inline="true" data-icon="back" data-iconpos="notext" data-rel="back">Volver</a>
+       	</div>
+        <h1>Agregar / Editar</h1>
+      </div>
+       <div data-role="content">
+           <div class="caja_blanca">
+        		<div id="fotoEdit"><a href="#"><img id="fotoEdit_img" src="assets/no_foto.png"/></a>
+            </div>
+        </div>
+           <div data-role="fieldcontain">
+             <input type="text" name="ti_nombre" id="ti_nombre" value="" placeholder="Nombre servicio" />
+           </div>
+           <div data-role="fieldcontain">
+             <input type="email" name="ti_mail" id="ti_email" value="" placeholder="Email" />
+           </div>
+           <div data-role="fieldcontain">
+             <input type="number" name="ti_telefono" id="ti_telefono" value="" placeholder="Telefono" />
+           </div>
+           <div data-role="fieldcontain">
+             <input type="text" name="ti_domicilio" id="ti_domicilio" value="" placeholder="Domicilio" />
+           </div>
+           
+           <div data-role="fieldcontain">
+    		<textarea cols="40" rows="12" placeholder="Nota..." name="ti_nota" id="ti_nota"></textarea>
+           </div>
+           
+           <center><div id="cajaCategorias">
+               <div data-role="fieldcontain">
+                 <fieldset data-role="controlgroup" data-type="horizontal">
+                   <input type="radio" name="categoriaSel" id="cat_amigos" value="amigos" />
+                   <label for="cat_amigos">Amigos</label>
+                   <input type="radio" name="categoriaSel" id="cat_hotel" value="hotel" />
+                   <label for="cat_hotel">Hoteles</label>
+                   <input type="radio" name="categoriaSel" id="cat_farmacia" value="farmacia" />
+                   <label for="cat_farmacia">Farmacia</label>
+                 </fieldset>
+               </div>
+        </div></center>
+        
+        <div data-role="controlgroup" data-type="horizontal">
+        	<button id="b_guardar" data-icon="plus">Guardar/ Editar</button>
+        	<button id="b_eliminar" data-icon="minus">Eliminar</button>
+        </div>
+        <div data-role="controlgroup" data-type="horizontal">
+        	<button id="b_cancelar" data-icon="delete">Cancelar</button>
+        </div>
+        
+       </div>
+         <div data-role="footer" data-position="fixed">
+    		<div data-role="navbar">
+     			<ul>
+     				<li><a href="#" data-rel="back" data-role="button" data-icon="arrow-l">Back</a></li>
+      				<li><a href="#home" data-role="button" data-icon="home">Home</a></li>
+      				<li><a href="#info" data-role="button" data-icon="info">Info</a></li>
+      				<li><a href="#acerca" data-role="button" data-icon="arrow-r">Next</a></li>
+     			</ul>
+   			</div>
+  		 </div>
+    </div>
+    
+    
+    
+    
+    
+    <!--pagina de Info-->
+ <div data-role="page" id="info" data-theme="e">
+  	<div data-role="header">
+    	<h1>Mas Inación</h1>
+  	</div>
+  <div data-role="content">
+    <center>Aplicación desarrollada mediante PhoneGap para Proyecto Final<br>
+    Por Joel Díaz - Mayo de 2018</center>
+    <a href="#" data-rel="back" data-role="button">Cerrar</a>
+  </div>
+ </div>
+    
+    
+    
+   <!-- Acerca de mí-->
+    <div data-role="page" id="acerca">
   <div data-role="header">
     <h1>Acerca de Mí</h1>
   </div>
@@ -144,7 +184,7 @@
   <div data-role="content">
       
       <center>
-      <img src="Imagenes/joel.jpg" width="25%" alt="Joel"> <br>
+      <img src="images/joel.jpg" width="25%" alt="Joel"> <br>
       </center>
       <h3>Datos personales</h3>
      	 <ul id="listaAyuda">
@@ -178,41 +218,7 @@
     </div>
   </div>
 </div>
-
-<!--==============Página de Info==================-->
-<div data-role="page" id="info" data-theme="e">
-  <div data-role="header">
-    <h1>Mas Inación</h1>
-  </div>
-  <div data-role="content">
-    <center>Aplicación desarrollada mediante PhoneGap para Proyecto Final<br>
-    Por Joel Díaz - Mayo de 2018</center>
-    <a href="#" data-rel="back" data-role="button">Cerrar</a>
-    </div>
-</div>
-
-<!--==============Página de Inacón de Servicio==================-->
-<div data-role="page" id="detalle">
-  <div data-role="header">
-    <div class="ui-btn-left">
-       <a href="#" data-role="button" data-inline="true" data-icon="back" data-iconpos="notext" data-rel="back">Volver</a>
-    </div>
-    <h1>Información del Servicio</h1>
-  </div>
-  <div data-role="content">
-    <div class="caja_blanca">
-        	<p id="categoria">Amigos</p>
-            <div id="foto"><img id="foto_img" src="assets/no_foto.png" alt="foto"/></div>
-      </div>
-      
-      <div class="caja_blanca">
-        <h3 id="nombre">Monica Olivarria</h3>
-         <div ><span id="num_tel">6699900970</span> <a href="#" data-role="button" data-inline="true" data-icon="phone" data-iconpos="notext" id="telefono">Llamar</a></div>
-        <div id="emails"><span id="label_mail">m.olivarria@ccumazatlan.mx</span> <a href="#" data-role="button" data-inline="true" data-icon="mail" data-iconpos="notext">Enviar Correo</a></div>
-        </div>
-  </div>
+    
   
-</div>
-
 </body>
 </html>

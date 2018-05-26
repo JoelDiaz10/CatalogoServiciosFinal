@@ -26,39 +26,47 @@ function mkLog(text){
 * carga inicial de la app
 */
 function onBodyLoad() {    
-	document.addEventListener("deviceready", onDeviceReady(), false);
+	document.addEventListener("deviceready", onDeviceReady, false);
 }
 
 function onDeviceReady(){
 	mkLog("Aplicación cargada y lista");
     //navigator.notification.alert("PhoneGap is working");
+	
 	existe_db = window.localStorage.getItem("existe_db");
-	db = window.openDatabase("catalogo_servicios", "1.0", "DB del curso Phonegap", 200000);
+	db = window.openDatabase("agenda_curso", "1.0", "DB del curso Phonegap", 200000);
 	if(existe_db == null){
 		creaDB();
-		alert("!!!!!se creo la base de datos!!!!!");
 	}else{
 		cargaDatos();
 	}
 	
 	
-	$("#btnGuardar").click(function(e){
+	$("#b_guardar").click(function(e){
 		if($.id != -1){
 		 	saveEditForm();
 		 }else{
 			saveNewForm();
-		}
+		 }
 	 });
 
-	$("#btnEliminar").click(function(e){
-		if($.id != -1)
-		 	deleteForm();
+	$("#b_eliminar").click(function(e){
+		if($.id != -1){
+		 var mensaje;
+    var opcion = confirm("¿Seguro que desea eliminar servicio");
+    if (opcion == true) {
+        deleteForm();
+	}else {
+	    return;
+	}
+	}
+		 
 	 });
 }
 
 
 /* 
-* creación de la base de datos
+* creación de ña base de datos
 */
 function creaDB(){
 	db.transaction(creaNuevaDB, errorDB, creaSuccess);
@@ -68,21 +76,21 @@ function creaDB(){
 function creaNuevaDB(tx){
 	mkLog("Creando base de datos");
 	
-	tx.executeSql('DROP TABLE IF EXISTS catalogo_servicios');
+	tx.executeSql('DROP TABLE IF EXISTS agenda_curso');
 	
-	var sql = "CREATE TABLE IF NOT EXISTS catalogo_servicios ( "+
+	var sql = "CREATE TABLE IF NOT EXISTS agenda_curso ( "+
 		"id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 		"nombre VARCHAR(50), " +
-		"foto VARCHAR(200), " +
+		"email VARCHAR(50), " +
 		"telefono VARCHAR(30), " +
-		"email VARCHAR(30), " +
-		"domicilio VARCHAR(200), " + 
-		"categoria VARCHAR(200), " + 
-		"nota VARCHAR(300) )";
+		"domicilio VARCHAR(100), " +
+		"categoria VARCHAR(30), " +
+		"foto VARCHAR(200), " + 
+		"nota VARCHAR(100) )";
 		
 	tx.executeSql(sql);
 	
-	tx.executeSql("INSERT INTO catalogo_servicios (id,nombre,foto,telefono,email,domicilio,categoria,nota) VALUES (1,'Maria','','6698237459','mariia@ccumazatlan.mx','Hotel del Cid #5796','amigos','Prueba primer Insert PhoneGap')");
+	tx.executeSql("INSERT INTO agenda_curso (id,nombre,email,telefono,domicilio,categoria,foto,nota) VALUES (1,'Marcos','marcos@ccumazatlan.mx','6699900970','Mazatlan','amigos','','Primer prueba')");
 }
 
 
@@ -107,7 +115,7 @@ function cargaDatos(){
 
 function cargaRegistros(tx){
 	mkLog("Cargando registros de la base de datos");
-	tx.executeSql('SELECT * FROM catalogo_servicios', [], cargaDatosSuccess, errorDB);
+	tx.executeSql('SELECT * FROM agenda_curso', [], cargaDatosSuccess, errorDB);
 }
 
 function cargaDatosSuccess(tx, results){
@@ -124,7 +132,7 @@ function cargaDatosSuccess(tx, results){
 		if(foto == ""){
 			foto = "assets/no_foto.png";
 		}
-		selector.append('<li id="li_'+persona.id+'"><a href="#detalle" data-uid='+persona.id+' class="linkDetalles"><div class="interior_lista"><img src="'+ foto +'" class="img_peq"/><span>' + persona.nombre + '</span></div></a><a href="#form"  data-theme="a" data-uid='+persona.id+'  class="linkForm">Predet.</a></li>').listview('refresh');
+		selector.append('<li id="li_'+persona.id+'"><a href="#detalle" data-uid='+persona.id+' class="linkDetalles"><div class="interior_lista"><img src="'+ foto +'" class="img_peq"/><span>' + persona.nombre + ' ' + persona.categoria+ '</span></div></a><a href="#form"  data-theme="a" data-uid='+persona.id+'  class="linkForm">Predet.</a></li>').listview('refresh');
 	}
 	
 	$(".linkDetalles").click(function(e){
@@ -140,7 +148,7 @@ function cargaDatosSuccess(tx, results){
 
 
 /*
-* vista detalle ======================================
+* vista detalle
 */
 
 $(document).on("pagebeforeshow", "#detalle", function(){
@@ -152,7 +160,7 @@ $(document).on("pagebeforeshow", "#detalle", function(){
 
 
 function queryDBFindByID(tx) {
-    tx.executeSql('SELECT * FROM catalogo_servicios WHERE id='+$.id, [], queryDetalleSuccess, errorDB);
+    tx.executeSql('SELECT * FROM agenda_curso WHERE id='+$.id, [], queryDetalleSuccess, errorDB);
 }
 
 function queryDetalleSuccess(tx, results) {
@@ -169,7 +177,7 @@ function queryDetalleSuccess(tx, results) {
 			_foto = "assets/no_foto.png";
 		}
 		$("#foto_img").attr("src", _foto);
-		$("#nombre").html($.registro.nombre);
+		$("#nombre").html($.registro.nombre + " " + $.registro.categoria);
 		$("#num_tel").html($.registro.telefono);
 		$("#telefono").attr("href", "tel:" + $.registro.telefono);
 		$("#label_mail").html("Email: " + $.registro.email);
@@ -197,9 +205,9 @@ function queryDBFindByIDForm(tx) {
 }
 
 function queryFormSuccess(tx, results) {
-	mkLog("Recibidos de la DB en vista actualizar" + results.rows.length + " registros");
+	mkLog("Recibidos de la DB en vista Form" + results.rows.length + " registros");
 	if(results.rows.length == 0){
-		mkLog("No se han recibido registros para la vista actualizar");
+		mkLog("No se han recibido registros para la vista form");
 		navigator.notification.alert("No hay detalles para ese elemento");
 	}
 	
@@ -210,13 +218,13 @@ function queryFormSuccess(tx, results) {
 			$.imageURL = "assets/no_foto.png";
 		}
 		$("#fotoEdit_img").attr("src", $.imageURL);
-		$("#ti_nombre").html($.registro.nombre);
-		$("#tel").html($.registro.telefono);
-		$("#email").html($.registro.email);
-		$("#domicilio").html($.registro.domicilio);		
-		$("#cat_"+$.registro.categoria).trigger("click").trigger("click");	//$("#cat_"+$.registro.categoria).attr("checked",true).checkboxradio("refresh");
-		$("#nota").html($.registro.nota);
+		$("#ti_nombre").val($.registro.nombre);
+		$("#ti_email").val($.registro.email);
+		$("#ti_telefono").val($.registro.telefono);
+		$("#ti_domicilio").val($.registro.domicilio);
+		$("#ti_nota").val($.registro.nota);
 		
+		$("#cat_"+$.registro.categoria).trigger("click").trigger("click");	//$("#cat_"+$.registro.categoria).attr("checked",true).checkboxradio("refresh");
 }
 $(document).on('pagebeforeshow', '#home', function(){ 
 	$.id = -1;
@@ -226,18 +234,17 @@ function initForm(){
 	
 	$("#fotoEdit_img").attr("src", $.imageURL);
 	$("#ti_nombre").val("");
-	$("#tel").val("");
-	$("#email").val("");
-	$("#domicilio").val("");   	
-	$("#cat_amigos").trigger("click").trigger("click") //Clic a una cat elegina
-	$("#nota").val("");
-
-	
+	$("#ti_email").val("");
+	$("#ti_telefono").val("");
+	$("#ti_domicilio").val("");
+	$("#ti_nota").val("");
+		
+	$("#cat_amigos").trigger("click").trigger("click")
 }
 
 
 /*
-* modificando registros Pendienteeeee las categoriasaaas!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+* modificando registros
 */
 function saveEditForm(){
 	if(db != null){
@@ -247,14 +254,14 @@ function saveEditForm(){
 
 function queryDBUpdateForm(tx){
 	var cat = $("#cajaCategorias").find("input:checked").val();
-	tx.executeSql('UPDATE agenda_curso SET nombre="'+$("#ti_nombre").val()+'",foto = "'+$.imageURL+'",telefono="'+$("#tel").val()+'",email="'+$("#email").val()+'",domicilio="'+$("#domicilio").val()+'",categoria="'+cat+'",nota="'+$("#nota").val()+'" WHERE id='+$.id);
+	tx.executeSql('UPDATE agenda_curso SET nombre="'+$("#ti_nombre").val()+'", email="'+$("#ti_email").val()+'",telefono="'+$("#ti_telefono").val()+'",domicilio="'+$("#ti_domicilio").val()+'",nota="'+$("#ti_nota").val()+'",categoria="'+cat+'",foto = "'+$.imageURL+'" WHERE id='+$.id);
 }
 function updateFormSuccess(tx) {
 	var selector = $("#li_"+$.id);
 	
 	var selector = $("#li_"+$.id).clone(true);
 	selector.find("img").attr("src", $.imageURL);
-	selector.find("a:first").find("span").html($("#ti_nombre").val());
+	selector.find("a:first").find("span").html($("#ti_nombre").val() + " Nota: " + $("#ti_nota").val());
 	
 	
 	$("#li_"+$.id).remove();
@@ -264,33 +271,6 @@ function updateFormSuccess(tx) {
 	lista.append(selector).listview('refresh');
 	
 	
-	$.mobile.changePage("#home");
-}
-
-
-/*
-* Eliminar registro
-*/
-function deleteForm(){
-	if(db != null){
-		db.transaction(queryDBUpdateForm, errorDB, updateFormSuccess);
-	}
-}
-
-function queryDBDeleteForm(tx){
-	//var cat = $("#cajaCategorias").find("input:checked").val();
-	tx.executeSql('DELETE FROM agenda_curso WHERE id='+$.id);
-}
-function deleteFormSuccess(tx) {
-	
-	/*var selector = $("#li_"+$.id);
-	var selector = $("#li_"+$.id).clone(true);
-	selector.find("img").attr("src", $.imageURL);
-	selector.find("a:first").find("span").html($("#nombreE").val());*/
-	$("#li_"+$.id).remove();
-	/*var cat = $("#cajaCategorias").find("input:checked").val();
-	var lista = $("#lista_" + cat + " ul")
-	lista.append(selector).listview('refresh');*/
 	$.mobile.changePage("#home");
 }
 
@@ -308,17 +288,16 @@ function saveNewForm(){
 function queryDBInsertForm(tx){
 	var cat = $("#cajaCategorias").find("input:checked").val();
 	
-	tx.executeSql("INSERT INTO agenda_curso (nombre,foto,telefono,email,domicilio,categoria,nota) VALUES ('"+$("#ti_nombre").val()+"','"+$.imageURL+"','"+$("#tel").val()+"','"+$("#email").val()+"','"+$("#domicilio").val()+"','"+cat+"','"+$("#nota").val()+"')", [], newFormSuccess, errorDB);
+	tx.executeSql("INSERT INTO agenda_curso (nombre,email,telefono,domicilio,nota,categoria,foto) VALUES ('"+$("#ti_nombre").val()+"','"+$("#ti_email").val()+"','"+$("#ti_telefono").val()+"','"+$("#ti_domicilio").val()+"','"+$("#ti_nota").val()+"','"+cat+"','"+$.imageURL+"')", [], newFormSuccess, errorDB);
 }
 function newFormSuccess(tx, results) {
 	var cat = $("#cajaCategorias").find("input:checked").val();
 	var lista = $("#lista_" + cat + " ul")
 	
 	
-	var obj = $('<li id="li_'+results.insertId+'"><a href="#detalle" data-uid='+results.insertId+' class="linkDetalles"><div class="interior_lista"><img src="'+ $.imageUR +'" class="img_peq"/><span>' + $("#ti_nombre").val() + '</span></div></a><a href="#form"  data-theme="a" data-uid='+results.insertId+'  class="linkForm">Predet.</a></li>');
+	var obj = $('<li id="li_'+results.insertId+'"><a href="#detalle" data-uid='+results.insertId+' class="linkDetalles"><div class="interior_lista"><img src="'+ $.imageUR +'" class="img_peq"/><span>' + $("#ti_nombre").val() + " Nota: " + $("#ti_nota").val()+ '</span></div></a><a href="#form"  data-theme="a" data-uid='+results.insertId+'  class="linkForm">Predet.</a></li>');
 	obj.find('.linkDetalles').bind('click', function(e){
 		$.id = $(this).data('uid');
-		alert($.id);
 	});
 	
 	obj.find('.linkForm').bind('click', function(e){
@@ -328,4 +307,21 @@ function newFormSuccess(tx, results) {
 	
 	
 	$.mobile.changePage("#home");
+
+	/*
+* Eliminar registro
+*/
+ function deleteForm(){
+	if(db != null){
+ 		db.transaction(queryDBUpdateForm, errorDB, updateFormSuccess);
+ 	}
+ }
+
+ function queryDBDeleteForm(tx){
+	tx.executeSql('DELETE FROM agenda_curso WHERE id='+$.id);
+ }
+ function deleteFormSuccess(tx) {
+	$("#li_"+$.id).remove();
+	$.mobile.changePage("#home");
+ }
 }
