@@ -56,7 +56,7 @@ function onDeviceReady(){
 		if($.id != -1){
     var opcion = confirm("¿Seguro que desea eliminar servicio");
     if (opcion == true) {
-        deleteForm();
+        DeleteForm();
         alert("Servicio Eliminado");
 	}else {
 	    return;
@@ -313,7 +313,7 @@ function newFormSuccess(tx, results) {
 	/*
 * Eliminar registro
 */
- function deleteForm(){
+ function DeleteForm(){
 	if(db != null){
  		db.transaction(queryDBUpdateForm, errorDB, updateFormSuccess);
  	}
@@ -322,8 +322,11 @@ function newFormSuccess(tx, results) {
  function queryDBDeleteForm(tx){
 	tx.executeSql('DELETE FROM agenda_curso WHERE id='+$.id);
  }
+
  function deleteFormSuccess(tx) {
+	
 	$("#li_"+$.id).remove();
+	
 	$.mobile.changePage("#home");
  }
 }
