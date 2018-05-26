@@ -199,7 +199,7 @@ function queryDetalleSuccess(tx, results) {
 		$("#telefono").attr("href", "tel:" + $.registro.telefono);
 		$("#label_mail").html("Email: " + $.registro.email);
 		$("#label_dom").html("Domicilio: " +$.registro.domicilio);
-		$("#not").html($.registro.nota);
+		$("#label_not").html("Nota: " +$.registro.nota);
 }
 
 
