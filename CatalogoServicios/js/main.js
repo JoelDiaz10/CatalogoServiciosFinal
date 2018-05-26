@@ -36,7 +36,7 @@ function onDeviceReady(){
 	db = window.openDatabase("catalogo_servicios", "1.0", "DB del curso Phonegap", 200000);
 	if(existe_db == null){
 		creaDB();
-		alert("se creo la base de datos");
+		alert("!!!!!se creo la base de datos!!!!!");
 	}else{
 		cargaDatos();
 	}
@@ -82,7 +82,7 @@ function creaNuevaDB(tx){
 		
 	tx.executeSql(sql);
 	
-	tx.executeSql("INSERT INTO catalogo_servicios (id,nombre,foto,telefono,email,domicilio,categoria,nota) VALUES (1,'Maria','','6699900970','mariia@ccumazatlan.mx','Hotel del Cid #5796','amigos','Prueba primer Insert PhoneGap')");
+	tx.executeSql("INSERT INTO catalogo_servicios (id,nombre,foto,telefono,email,domicilio,categoria,nota) VALUES (1,'Maria','','6698237459','mariia@ccumazatlan.mx','Hotel del Cid #5796','amigos','Prueba primer Insert PhoneGap')");
 }
 
 
@@ -124,7 +124,7 @@ function cargaDatosSuccess(tx, results){
 		if(foto == ""){
 			foto = "assets/no_foto.png";
 		}
-		selector.append('<li id="li_'+persona.id+'"><a href="#infoService" data-uid='+persona.id+' class="linkDetalles"><div class="interior_lista"><img src="'+ foto +'" class="img_peq"/><span>' + persona.nombre + '</span></div></a><a href="#form"  data-theme="a" data-uid='+persona.id+'  class="linkForm">Predet.</a></li>').listview('refresh');
+		selector.append('<li id="li_'+persona.id+'"><a href="#detalle" data-uid='+persona.id+' class="linkDetalles"><div class="interior_lista"><img src="'+ foto +'" class="img_peq"/><span>' + persona.nombre + '</span></div></a><a href="#form"  data-theme="a" data-uid='+persona.id+'  class="linkForm">Predet.</a></li>').listview('refresh');
 	}
 	
 	$(".linkDetalles").click(function(e){
@@ -143,7 +143,7 @@ function cargaDatosSuccess(tx, results){
 * vista detalle ======================================
 */
 
-$(document).on("pagebeforeshow", "#infoService", function(){
+$(document).on("pagebeforeshow", "#detalle", function(){
 	if(db != null){
 		db.transaction(queryDBFindByID, errorDB);
 	}
@@ -172,7 +172,7 @@ function queryDetalleSuccess(tx, results) {
 		$("#nombre").html($.registro.nombre);
 		$("#num_tel").html($.registro.telefono);
 		$("#telefono").attr("href", "tel:" + $.registro.telefono);
-		$("#emails").html("Email: " + $.registro.email);
+		$("#label_mail").html("Email: " + $.registro.email);
 }
 
 
@@ -214,12 +214,11 @@ function queryFormSuccess(tx, results) {
 		$("#tel").html($.registro.telefono);
 		$("#email").html($.registro.email);
 		$("#domicilio").html($.registro.domicilio);		
-		$("#nota").html($.registro.nota);
-
 		$("#cat_"+$.registro.categoria).trigger("click").trigger("click");	//$("#cat_"+$.registro.categoria).attr("checked",true).checkboxradio("refresh");
+		$("#nota").html($.registro.nota);
 		
 }
-$(document).on('pagebeforeshow', '#incio', function(){ 
+$(document).on('pagebeforeshow', '#home', function(){ 
 	$.id = -1;
 });
 function initForm(){
@@ -230,9 +229,8 @@ function initForm(){
 	$("#tel").val("");
 	$("#email").val("");
 	$("#domicilio").val("");   	
-	$("#nota").val("");
-
 	$("#cat_amigos").trigger("click").trigger("click") //Clic a una cat elegina
+	$("#nota").val("");
 
 	
 }
@@ -256,7 +254,7 @@ function updateFormSuccess(tx) {
 	
 	var selector = $("#li_"+$.id).clone(true);
 	selector.find("img").attr("src", $.imageURL);
-	selector.find("a:first").find("span").html($("#nombreE").val());
+	selector.find("a:first").find("span").html($("#ti_nombre").val());
 	
 	
 	$("#li_"+$.id).remove();
@@ -317,9 +315,10 @@ function newFormSuccess(tx, results) {
 	var lista = $("#lista_" + cat + " ul")
 	
 	
-	var obj = $('<li id="li_'+results.insertId+'"><a href="#infoService" data-uid='+results.insertId+' class="linkDetalles"><div class="interior_lista"><img src="'+ $.imageUR +'" class="img_peq"/><span>' + $("#ti_nombre").val() + '</span></div></a><a href="#form"  data-theme="a" data-uid='+results.insertId+'  class="linkForm">Predet.</a></li>');
+	var obj = $('<li id="li_'+results.insertId+'"><a href="#detalle" data-uid='+results.insertId+' class="linkDetalles"><div class="interior_lista"><img src="'+ $.imageUR +'" class="img_peq"/><span>' + $("#ti_nombre").val() + '</span></div></a><a href="#form"  data-theme="a" data-uid='+results.insertId+'  class="linkForm">Predet.</a></li>');
 	obj.find('.linkDetalles').bind('click', function(e){
 		$.id = $(this).data('uid');
+		alert($.id);
 	});
 	
 	obj.find('.linkForm').bind('click', function(e){
