@@ -32,12 +32,12 @@ function onBodyLoad() {
 function onDeviceReady(){
 	mkLog("Aplicación cargada y lista");
     //navigator.notification.alert("PhoneGap is working");
-	alert("Cargado")
+
 	existe_db = window.localStorage.getItem("existe_db");
 	db = window.openDatabase("agenda_curso", "1.0", "DB del curso Phonegap", 200000);
 	if(existe_db == null){
 		creaDB();
-		alert("Base de datos creada")
+		alert("Base de datos creada");
 	}else{
 		cargaDatos();
 	}
@@ -51,12 +51,13 @@ function onDeviceReady(){
 		 }
 	 });
 
+	
 	$("#b_eliminar").click(function(e){
 		if($.id != -1){
-		 var mensaje;
     var opcion = confirm("¿Seguro que desea eliminar servicio");
     if (opcion == true) {
         deleteForm();
+        alert("Servicio Eliminado");
 	}else {
 	    return;
 	}
@@ -289,7 +290,7 @@ function saveNewForm(){
 function queryDBInsertForm(tx){
 	var cat = $("#cajaCategorias").find("input:checked").val();
 	
-	tx.executeSql("INSERT INTO agenda_curso (nombre,email,telefono,domicilio,nota,categoria,foto) VALUES ('"+$("#ti_nombre").val()+"','"+$("#ti_email").val()+"','"+$("#ti_telefono").val()+"','"+$("#ti_domicilio").val()+"','"+$("#ti_nota").val()+"','"+cat+"','"+$.imageURL+"')", [], newFormSuccess, errorDB);
+	tx.executeSql("INSERT INTO agenda_curso (nombre,email,telefono,domicilio,nota,foto,categoria) VALUES ('"+$("#ti_nombre").val()+"','"+$("#ti_email").val()+"','"+$("#ti_telefono").val()+"','"+$("#ti_domicilio").val()+"','"+$("#ti_nota").val()+"','"+$.imageURL+"','"+cat+"')", [], newFormSuccess, errorDB);
 }
 function newFormSuccess(tx, results) {
 	var cat = $("#cajaCategorias").find("input:checked").val();
